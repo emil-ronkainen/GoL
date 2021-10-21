@@ -18,8 +18,17 @@ class Main:
         while 1:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: sys.exit()
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    self.toggled = not self.toggled
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        self.toggled = not self.toggled
+                    elif event.key == pygame.K_r: # Reset state
+                        self.map = Map()
+                        self.update()
+                        self.draw()
+                    elif event.key == pygame.K_c:
+                        self.map.clear()
+                        self.update()
+                        self.draw()
                 if event.type == pygame.MOUSEBUTTONUP:
                     pos = self.convert_to_coords(event.pos)
                     self.map.positions[pos[0]][pos[1]].toggle()
