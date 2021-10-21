@@ -1,4 +1,4 @@
-import pygame, sys
+import pygame, sys, math
 from Map import Map
 from Consts import Consts as C
 
@@ -8,6 +8,7 @@ class Main:
         self.map = Map()
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode(C.SIZE)
+        self.toggled = True
 
     def main(self):
         # self.map.debug_print_state()
@@ -15,14 +16,20 @@ class Main:
 
     def start(self):
         while 1:
-            self.clock.tick(C.TICKRATE)
-
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: sys.exit()
-                #if event.type == pygame.KEYDOWN:
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                    self.toggled = not self.toggled
+                if event.type == pygame.MOUSEBUTTONUP:
+                    pos = self.convert_to_coords(event.pos)
+                    self.map.positions[pos[0]][pos[1]].toggle()
+                    self.draw()
 
-            self.update()
-            self.draw()
+            if self.toggled:
+                self.clock.tick(C.TICKRATE)
+
+                self.update()
+                self.draw()
 
     def update(self):
         for row in self.map.positions:
@@ -33,6 +40,11 @@ class Main:
         self.screen.fill(C.LIGHT_GRAY)
         self.map.draw(self.screen)
         pygame.display.flip()
+
+    def convert_to_coords(self, event_pos):
+        x = math.floor(event_pos[0] / C.SQUARE_SIZE)
+        y = math.floor(event_pos[1] / C.SQUARE_SIZE)
+        return (x, y)
 
 if __name__ == '__main__':
     main = Main()

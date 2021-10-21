@@ -1,8 +1,8 @@
 
 class Consts:
 
-    SIZE = WIDTH, HEIGHT = 500, 500
-    SQUARE_SIZE = 5
+    SIZE = WIDTH, HEIGHT = 700, 700
+    SQUARE_SIZE = 20
     TICKRATE = 5
 
     SPAWN_MAX = 40

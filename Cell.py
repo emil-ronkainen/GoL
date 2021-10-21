@@ -33,6 +33,12 @@ class Cell:
     def draw(self, screen):
         rect = pygame.Rect(self.row * C.SQUARE_SIZE, self.col * C.SQUARE_SIZE, C.SQUARE_SIZE, C.SQUARE_SIZE)
         color = C.BLACK
-        if self.state == State.ALIVE:
+        if self.state is State.ALIVE:
             color = C.GREEN
         pygame.draw.rect(screen, color, rect)
+
+    def toggle(self):
+        if self.state is State.ALIVE:
+            self.state = State.DEAD
+        else: # Only if State is State.DEAD
+            self.state = State.ALIVE
