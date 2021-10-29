@@ -2,13 +2,17 @@ import pygame, sys, math
 from Map import Map
 from Consts import Consts as C
 
+from DebugCell import DebugCell
+from Cell import Cell
+
 class Main:
 
     def __init__(self):
-        self.map = Map()
+        self.map = Map(True, False)
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode(C.SIZE)
         self.toggled = True
+        self.debug = False
 
     def main(self):
         # self.map.debug_print_state()
@@ -22,12 +26,16 @@ class Main:
                     if event.key == pygame.K_SPACE:
                         self.toggled = not self.toggled
                     elif event.key == pygame.K_r: # Reset state
-                        self.map = Map()
+                        self.map = Map(True, self.debug)
                         self.update()
                         self.draw()
-                    elif event.key == pygame.K_c:
-                        self.map.clear()
+                    elif event.key == pygame.K_c: # Clear board
+                        self.map.clear(self.debug)
                         self.update()
+                        self.draw()
+                    elif event.key == pygame.K_v: # Toggle debug
+                        self.debug = not self.debug
+                        self.map.toggle_debug(self.debug)
                         self.draw()
                 if event.type == pygame.MOUSEBUTTONUP:
                     pos = self.convert_to_coords(event.pos)

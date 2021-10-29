@@ -8,7 +8,7 @@ class State(Enum):
     BIRTH = auto()
     DYING = auto()
 
-class Cell:
+class Cell(object):
 
     def __init__(self, row, col, state):
         self.state = state
@@ -16,7 +16,7 @@ class Cell:
         self.col = col
 
     def __str__(self):
-        return str((self.col, self.row))
+        return str((self.row, self.col))
 
     def __repr__(self):
         return self.__str__()
