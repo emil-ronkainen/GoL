@@ -8,28 +8,21 @@ class DebugCell(Cell):
 
     def __init__(self, row, col, state):
         super().__init__(row, col, state)
+        self.previous_state = state
 
-    def update(self, neighbours):
-        if self.state is State.ALIVE and not 2 <= neighbours <= 3:
-            self.state = State.DYING
-        elif self.state is State.DEAD and neighbours == 3:
-            self.state = State.BIRTH
-        elif self.state is State.DYING:
-            self.state = State.DEAD
-        elif self.state is State.BIRTH:
-            self.state = State.ALIVE
 
     def draw(self, screen):
         rect = pygame.Rect(self.row * C.SQUARE_SIZE, self.col * C.SQUARE_SIZE, C.SQUARE_SIZE, C.SQUARE_SIZE)
         color = C.BLACK
 
-        if self.state is State.ALIVE:
-            color = C.GREEN
-        elif self.state is State.DYING:
-            color = C.DARK_GRAY
-        elif self.state is State.BIRTH:
+        if self.state is State.ALIVE and self.previous_state == State.DEAD:
             color = C.RED
+        elif self.state is State.DEAD and self.previous_state == State.ALIVE:
+            color = C.DARK_GRAY
+        elif self.state is State.ALIVE:
+            color = C.GREEN
 
+        self.previous_state = self.state
         pygame.draw.rect(screen, color, rect)
 
     def __repr__(self):
