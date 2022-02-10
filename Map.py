@@ -2,11 +2,17 @@ import pygame, random
 from Consts import Consts as C
 from Cell import Cell, State
 from DebugCell import DebugCell
+import copy
 
 class Map:
 
     def __init__(self, is_random, toggle_debug):
         self.generate_cells(is_random, toggle_debug)
+
+    def deepcopy(self):
+        map = Map(False, False)
+        map.positions = copy.deepcopy(self.positions)
+        return map
 
     def count_neighbours(self, row, col):
         nbr = 0

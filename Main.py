@@ -37,6 +37,9 @@ class Main:
                         self.debug = not self.debug
                         self.map.toggle_debug(self.debug)
                         self.draw()
+                    elif event.key == pygame.K_t:
+                        self.update()
+                        self.draw()
                 if event.type == pygame.MOUSEBUTTONUP:
                     pos = self.convert_to_coords(event.pos)
                     self.map.positions[pos[0]][pos[1]].toggle()
@@ -49,9 +52,10 @@ class Main:
                 self.draw()
 
     def update(self):
+        oldMap = self.map.deepcopy()
         for row in self.map.positions:
             for cell in row:
-                cell.update(self.map.count_neighbours(cell.row, cell.col))
+                cell.update(oldMap.count_neighbours(cell.row, cell.col))
 
     def draw(self):
         self.screen.fill(C.LIGHT_GRAY)
